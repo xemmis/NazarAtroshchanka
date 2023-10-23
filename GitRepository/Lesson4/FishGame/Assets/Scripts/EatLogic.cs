@@ -7,8 +7,6 @@ using UnityEngine;
 public class EatLogic : MonoBehaviour
 {
     Transform transform;
-    public Collider playerCollider;
-    [SerializeField] public Collider enemyCollider;
     [SerializeField] private float _mass;
 
     private void Start()
@@ -26,10 +24,6 @@ public class EatLogic : MonoBehaviour
             {
                 transform.localScale += new Vector3(enemyMass * 0.5f, enemyMass * 0.5f, enemyMass * 0.5f);
                 Destroy(collision.gameObject);
-            }
-            else if (_mass == enemyMass)
-            {
-                Physics.IgnoreCollision(playerCollider, enemyCollider);
             }
             else if (_mass < enemyMass)
             {
