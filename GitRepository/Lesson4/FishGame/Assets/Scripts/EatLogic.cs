@@ -9,27 +9,31 @@ public class EatLogic : MonoBehaviour
     Transform transform;
     public Collider playerCollider;
     [SerializeField] public Collider enemyCollider;
+    [SerializeField] private float _mass;
+
     private void Start()
     {
         transform = GetComponent<Transform>();
+        _mass = GetComponent<Mass>().Value;
+        transform.localScale = new Vector3(_mass, _mass, _mass);
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            if ((collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z) < (transform.localScale.x + transform.localScale.y + transform.localScale.z))
+            float enemyMass = collision.gameObject.GetComponent<Mass>().Value;
+            if (_mass > enemyMass)
             {
-
-                transform.localScale += new Vector3(collision.transform.localScale.x * 0.5f, collision.transform.localScale.y * 0.5f, collision.transform.localScale.z * 0.5f);
+                transform.localScale += new Vector3(enemyMass * 0.5f, enemyMass * 0.5f, enemyMass * 0.5f);
                 Destroy(collision.gameObject);
             }
-            else if (collision.transform.localScale == transform.localScale)
+            else if (_mass == enemyMass)
             {
                 Physics.IgnoreCollision(playerCollider, enemyCollider);
             }
-            else if ((collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z) > (transform.localScale.x + transform.localScale.y + transform.localScale.z))
+            else if (_mass < enemyMass)
             {
-                collision.transform.localScale += new Vector3(transform.localScale.x * 0.5f, transform.localScale.y * 0.5f, transform.localScale.z * 0.5f);
+                collision.transform.localScale += new Vector3(enemyMass * 0.5f, enemyMass * 0.5f, enemyMass * 0.5f);
                 Destroy(gameObject);
             }
         }
