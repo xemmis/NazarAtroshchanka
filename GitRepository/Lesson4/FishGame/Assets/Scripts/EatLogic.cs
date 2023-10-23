@@ -7,34 +7,32 @@ using UnityEngine;
 public class EatLogic : MonoBehaviour
 {
     Transform transform;
-    [SerializeField] private Collider playerCollider;
-    [SerializeField] private Collider enemyCollider;
-    [SerializeField] public float Amount = 1f;
+    public Collider playerCollider;
+    [SerializeField] public Collider enemyCollider;
     private void Start()
     {
-        transform.localScale = new Vector3(Amount, Amount, Amount);
-        transform = GetComponent<Transform>();        
+        transform = GetComponent<Transform>();
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            if(collision.gameObject.GetComponent<EatLogic>().Amount > Amount)
+            if ((collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z) < (transform.localScale.x + transform.localScale.y + transform.localScale.z))
             {
-                float enemyMass = collision.gameObject.GetComponent<EatLogic>().Amount;
-                transform.localScale += new Vector3(enemyMass, enemyMass, enemyMass); 
+
+                transform.localScale += new Vector3(collision.transform.localScale.x * 0.5f, collision.transform.localScale.y * 0.5f, collision.transform.localScale.z * 0.5f);
                 Destroy(collision.gameObject);
             }
-            else if(collision.gameObject.GetComponent<EatLogic>().Amount == Amount)
+            else if (collision.transform.localScale == transform.localScale)
             {
                 Physics.IgnoreCollision(playerCollider, enemyCollider);
             }
-            else if(collision.gameObject.GetComponent<EatLogic>().Amount > Amount)
+            else if ((collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z) > (transform.localScale.x + transform.localScale.y + transform.localScale.z))
             {
-                collision.transform.localScale += new Vector3(Amount,Amount,Amount);
+                collision.transform.localScale += new Vector3(transform.localScale.x * 0.5f, transform.localScale.y * 0.5f, transform.localScale.z * 0.5f);
                 Destroy(gameObject);
             }
         }
-        
+
     }
 }
