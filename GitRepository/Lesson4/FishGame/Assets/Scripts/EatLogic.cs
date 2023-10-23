@@ -7,29 +7,31 @@ using UnityEngine;
 public class EatLogic : MonoBehaviour
 {
     Transform transform;
-    public Collider playerCollider;
-    [SerializeField] public Collider enemyCollider;
+    [SerializeField] private Collider playerCollider;
+    [SerializeField] private Collider enemyCollider;
+    [SerializeField] public float Amount = 1f;
     private void Start()
     {
+        transform.localScale = new Vector3(Amount, Amount, Amount);
         transform = GetComponent<Transform>();        
     }
     private void OnCollisionEnter(Collision collision)
     {
         if (collision.gameObject.tag == "Enemy")
         {
-            if((collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z) < (transform.localScale.x + transform.localScale.y + transform.localScale.z))
+            if(collision.gameObject.GetComponent<EatLogic>().Amount > Amount)
             {
-               
-                transform.localScale += new Vector3(collision.transform.localScale.x * 0.5f, collision.transform.localScale.y * 0.5f, collision.transform.localScale.z * 0.5f); 
+                float enemyMass = collision.gameObject.GetComponent<EatLogic>().Amount;
+                transform.localScale += new Vector3(enemyMass, enemyMass, enemyMass); 
                 Destroy(collision.gameObject);
             }
-            else if(collision.transform.localScale == transform.localScale)
+            else if(collision.gameObject.GetComponent<EatLogic>().Amount == Amount)
             {
                 Physics.IgnoreCollision(playerCollider, enemyCollider);
             }
-            else if((collision.transform.localScale.x + collision.transform.localScale.y + collision.transform.localScale.z) > (transform.localScale.x + transform.localScale.y + transform.localScale.z))
+            else if(collision.gameObject.GetComponent<EatLogic>().Amount > Amount)
             {
-                collision.transform.localScale += new Vector3(transform.localScale.x * 0.5f, transform.localScale.y * 0.5f, transform.localScale.z * 0.5f);
+                collision.transform.localScale += new Vector3(Amount,Amount,Amount);
                 Destroy(gameObject);
             }
         }
