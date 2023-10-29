@@ -1,20 +1,23 @@
 using UnityEngine;
 public class EnemyMovement : MonoBehaviour
 {
-    Rigidbody _rigidbody;
+
     [SerializeField] private float _moveSpeed = 10f;
     [SerializeField] private float _timeLeft = 3f;
+    private Rigidbody _rigidbody;
     private float _randomX;
     private float _randomY;
+
     private void Start()
     {
         _randomX = Random.Range(-1, 2);
         _randomY = Random.Range(-1, 2);
         _rigidbody = GetComponent<Rigidbody>();
     } 
-    private void Update()
+
+    private void FixedUpdate()
     {
-        _rigidbody.velocity = new Vector3(_randomX * _moveSpeed, _rigidbody.velocity.y, _randomY * _moveSpeed);
+        _rigidbody.AddForce(new Vector3(_randomX * _moveSpeed, _rigidbody.velocity.y, _randomY * _moveSpeed),ForceMode.Force);
         _timeLeft -= Time.deltaTime;
         if (_timeLeft < 0)
         {            
@@ -22,11 +25,11 @@ public class EnemyMovement : MonoBehaviour
             _timeLeft = 3f;
         }
     }
+
     private void RandomDirection()
     {
         _randomX = Random.Range(-1, 2);
         _randomY = Random.Range(-1, 2);
-        Debug.Log(_randomX);
-        Debug.Log(_randomY);
     }
+
 }

@@ -2,24 +2,27 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    Rigidbody _rigidbody;
-    [SerializeField] private float _speed = 15f;
-    [SerializeField] private float _mass;
+
+    [SerializeField] private float _speed = 15f;    
+    private Rigidbody _rigidbody;
     private float _directX;
     private float _directY;
-    void Start()
-    {
-        _mass = GetComponent<Mass>().Value;
+
+    private void Start()
+    {    
         _rigidbody = GetComponent<Rigidbody>();
-    }    
-    void Update()
+    }
+
+    private void Update()
     {
         MovementLogic();
     }
+
     private void MovementLogic()
     {
         _directX = Input.GetAxis("Horizontal");
-        _directY = Input.GetAxis("Vertical");        
-        _rigidbody.velocity = new Vector3(_directX * _speed, _rigidbody.velocity.y, _directY * _speed);
+        _directY = Input.GetAxis("Vertical");
+        _rigidbody.AddForce(new Vector3(_directX * _speed, _rigidbody.velocity.y, _directY * _speed));
     }
+
 }
