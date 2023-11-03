@@ -2,8 +2,10 @@ using UnityEngine;
 
 public class Ball : MonoBehaviour
 {
+
     [SerializeField] private Rigidbody _rigidbody;
-    private void Start()
+
+    private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
     }
@@ -12,4 +14,5 @@ public class Ball : MonoBehaviour
     {
         _rigidbody.AddForce(direction * force, ForceMode.Impulse);
     }
+
 }
