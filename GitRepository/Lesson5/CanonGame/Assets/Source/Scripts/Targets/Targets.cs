@@ -14,7 +14,7 @@ public class Targets : MonoBehaviour
             _count++;
             _counter.text = "count: " + _count.ToString();
             Destroy(collision.gameObject);
+            Destroy(gameObject);
         }
     }
-
 }

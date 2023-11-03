@@ -40,6 +40,7 @@ public class PlayerShoot : MonoBehaviour
 
     private IEnumerator ShootTick()
     {
+        Debug.Log(_count-1);
         _canShoot = false;
         yield return new WaitForSeconds(_shootDelay);
         CreateBall();
@@ -55,6 +56,7 @@ public class PlayerShoot : MonoBehaviour
     {
         yield return new WaitForSeconds(_reloadTime);
         _count = 10;        
+        Debug.Log(_count);
     }
 
 }
