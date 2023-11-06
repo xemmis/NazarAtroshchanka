@@ -3,14 +3,14 @@ using UnityEngine;
 
 public class PlayerShoot : MonoBehaviour
 {
-
+    [SerializeField] private UIManager _uiManager;
     [SerializeField] private Ball _ball;
     [SerializeField] private Transform _spawnPoint;
     [SerializeField] private float _shootDelay = 0.1f;
     [SerializeField] private float _delay = 1f;
     [SerializeField] private float _reloadTime = 3f;
-    [SerializeField] private bool _canShoot = true;
     [SerializeField] private int _count = 10;
+    [SerializeField] private bool _canShoot = true;
 
     private void Update()
     {
@@ -19,6 +19,7 @@ public class PlayerShoot : MonoBehaviour
 
     private void CannonShootLogic()
     {
+        _uiManager.DisplayBullets(_count);
         if (Input.GetKeyDown(KeyCode.Space) && _canShoot && _count != 0)
         {
             StartCoroutine(ShootTick());
