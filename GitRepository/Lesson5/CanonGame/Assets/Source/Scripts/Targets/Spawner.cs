@@ -11,7 +11,7 @@ public class Spawner : MonoBehaviour
     [SerializeField] private float _randomY;
     [SerializeField] private float _spawnerTime = 3f;
     [SerializeField] private int _count = 0;
-    [SerializeField] private int hit = 0;
+    [SerializeField] private int _hit = 0;
     [SerializeField] private int _maxCount = 4;
 
     private void Update()
@@ -36,11 +36,12 @@ public class Spawner : MonoBehaviour
 
     public int AddHit(int hit)
     {
-        return (this.hit += hit);
+        return (this._hit += hit);
     }
 
     public int GetHit()
     {
-        return hit;
+        return _hit;
     }
+
 }

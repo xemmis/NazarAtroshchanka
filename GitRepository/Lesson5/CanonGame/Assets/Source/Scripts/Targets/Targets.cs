@@ -26,4 +26,5 @@ public class Targets : MonoBehaviour
     {
         _counter = uiManager;
     }
+
 }
