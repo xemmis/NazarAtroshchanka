@@ -21,19 +21,26 @@ public class Gun : MonoBehaviour
     public virtual void Shoot()
     {
         CanShoot = false;
-        StartCoroutine(ShootTick());
+        Ammo--;
+        if (Ammo > 0)
+        {
+            StartCoroutine(ShootTick());
+        }
+        else
+        {
+            return;
+        }
     }
 
-    private virtual protected IEnumerator ShootTick()
+    private protected virtual IEnumerator ShootTick()
     {
         yield return new WaitForSeconds(_delayBetweenShoots);
-        Ammo--;
         Bullet newBulletCreated = Instantiate(_bullet, ShootPoint.position, Quaternion.identity).GetComponent<Bullet>();
         newBulletCreated.BulletFly(ShootPoint.forward, _bulletSpeed);        
         CanShoot = true;
     }
 
-    private virtual protected IEnumerator ReloadTick()
+    private protected virtual IEnumerator ReloadTick()
     {
         yield return new WaitForSeconds(_ReloadDelay);
         Ammo = _maxAmmo;

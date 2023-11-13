@@ -2,17 +2,32 @@ using System.Collections;
 using UnityEngine;
 
 public class Pistol : Gun
-{    
+{
+    [SerializeField] private int _counter = 1;
     public override void Shoot()
     {
-        StartCoroutine(ShootTick());
-    }
-
-    private override protected IEnumerator ShootTick()
-    {
+        CanShoot = false;
         Ammo--;
-        yield return new WaitForSeconds(_delayBetweenShoots);
-        Bullet newBulletCreated = Instantiate(_bullet, ShootPoint.position, Quaternion.identity).GetComponent<Bullet>();
-        newBulletCreated.BulletFly(ShootPoint.forward, _bulletSpeed); 
+        if (_counter == 1)
+        {
+            StartCoroutine(ShootTick());
+            _counter++;
+        }
+        else if (_counter == 2)
+        {
+            StartCoroutine(ShootTick());
+            StartCoroutine(ShootTick());
+            _counter++;
+        }
+        else if (_counter == 3)
+        {
+            
+            StartCoroutine(ShootTick());
+            StartCoroutine(ShootTick());
+            StartCoroutine(ShootTick());
+            _counter = 1;
+        }
     }
+    
 }
+
