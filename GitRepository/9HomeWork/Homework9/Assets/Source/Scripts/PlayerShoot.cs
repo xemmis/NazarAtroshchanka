@@ -8,7 +8,7 @@ public class PlayerShoot : MonoBehaviour
     {
         if (Input.GetKey(KeyCode.Space) && _currentGun.CanShoot && _currentGun.Ammo > 0)
         {
-            _currentGun.Shoot();
+            _currentGun.ShootKeyPressed();
         }
 
         if (Input.GetKeyDown(KeyCode.R))

@@ -1,7 +1,7 @@
 using UnityEngine;
 
 public class Bullet : MonoBehaviour
-{
+{    
     private Rigidbody _rigidBody;
 
     private void Awake()

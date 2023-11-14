@@ -1,33 +1,46 @@
-using System.Collections;
 using UnityEngine;
 
 public class Pistol : Gun
 {
-    [SerializeField] private int _counter = 1;
-    public override void Shoot()
+    [field: SerializeField] public int Count { set; private get; } = 1;
+
+    private void PistolShootingLogic()
     {
-        CanShoot = false;
-        Ammo--;
-        if (_counter == 1)
+        if (Count <= 4)
         {
-            StartCoroutine(ShootTick());
-            _counter++;
+            Count++;
+            for (int i = 1; i < Count; i++) 
+            {
+                Ammo--;
+                StartCoroutine(ShootTick());                
+            }
+            if (Count == 4)
+            {
+                Count = 1;                
+            }            
+        }        
+    }
+
+    public override void ShotLogic()
+    {
+        Bullet newBulletCreated = Instantiate(_bullet, ShootPoint.position, Quaternion.identity).GetComponent<Bullet>();
+        newBulletCreated.BulletFly(ShootPoint.forward, _bulletSpeed);
+        CanShoot = true;
+    }
+
+    public override void ShootKeyPressed()
+    {
+        CanShoot = false;        
+        if (Ammo > Count)
+        {
+            PistolShootingLogic();    
         }
-        else if (_counter == 2)
+        else
         {
-            StartCoroutine(ShootTick());
-            StartCoroutine(ShootTick());
-            _counter++;
-        }
-        else if (_counter == 3)
-        {
-            
-            StartCoroutine(ShootTick());
-            StartCoroutine(ShootTick());
-            StartCoroutine(ShootTick());
-            _counter = 1;
+            return;
         }
     }
-    
 }
 
+
+               

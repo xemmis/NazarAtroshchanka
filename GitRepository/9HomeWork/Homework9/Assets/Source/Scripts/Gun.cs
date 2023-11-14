@@ -18,7 +18,7 @@ public class Gun : MonoBehaviour
         StartCoroutine(ReloadTick());
     }
 
-    public virtual void Shoot()
+    public virtual void ShootKeyPressed()
     {
         CanShoot = false;
         Ammo--;
@@ -32,12 +32,17 @@ public class Gun : MonoBehaviour
         }
     }
 
-    private protected virtual IEnumerator ShootTick()
+    public virtual void ShotLogic()
     {
-        yield return new WaitForSeconds(_delayBetweenShoots);
         Bullet newBulletCreated = Instantiate(_bullet, ShootPoint.position, Quaternion.identity).GetComponent<Bullet>();
         newBulletCreated.BulletFly(ShootPoint.forward, _bulletSpeed);        
         CanShoot = true;
+    }
+
+    private protected virtual IEnumerator ShootTick()
+    {
+        yield return new WaitForSeconds(_delayBetweenShoots);
+        ShotLogic();        
     }
 
     private protected virtual IEnumerator ReloadTick()
